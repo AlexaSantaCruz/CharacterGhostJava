@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.util.*;
 import javax.swing.*;
 
-public class Ball {
+public class Ball{
     
     Random random;
     int xVelocity;

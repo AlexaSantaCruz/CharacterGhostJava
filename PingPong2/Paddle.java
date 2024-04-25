@@ -12,6 +12,8 @@ public class Paddle{
     
     int id;/*paddle 1 or 2 */
     int yVelocity;
+    int speed = 10;
+
     private BufferedImage buffer;
     int x;
     int y;
@@ -19,12 +21,15 @@ public class Paddle{
     int height;
     Graphics gBuffer;
 
-    Paddle(int x, int y, int PADDLE_WIDTH, int PADDLE_HEIGHT, int id,BufferedImage buffer){
+    static final int PADDLE_WIDTH=25;
+    static final int PADDLE_HEIGHT=100;
+
+    Paddle(int x, int y, int WIDTH, int HEIGHT, int id,BufferedImage buffer){
         
         this.x=x;
         this.y=y;
-        width=PADDLE_WIDTH;
-        height=PADDLE_HEIGHT;
+        width=WIDTH;
+        height=HEIGHT;
         this.id=id;
         this.buffer = buffer;
         this.gBuffer=buffer.createGraphics();
@@ -32,19 +37,56 @@ public class Paddle{
 
     }
 
-    public void KeyPressed(KeyEvent e){
+	
+	public void keyPressed(KeyEvent e) {
+		switch(id) {
+		case 1:
+			if(e.getKeyCode()==KeyEvent.VK_W) {
+				setYDirection(-speed);
+			}
+			if(e.getKeyCode()==KeyEvent.VK_S) {
+				setYDirection(speed);
+			}
+			break;
+		case 2:
+			if(e.getKeyCode()==KeyEvent.VK_UP) {
+				setYDirection(-speed);
+			}
+			if(e.getKeyCode()==KeyEvent.VK_DOWN) {
+				setYDirection(speed);
+			}
+			break;
+		}
+	}
 
-    }
-    public void KeyReleased(KeyEvent e){
-        
-    }
+	public void keyReleased(KeyEvent e) {
+		switch(id) {
+		case 1:
+			if(e.getKeyCode()==KeyEvent.VK_W) {
+				setYDirection(0);
+			}
+			if(e.getKeyCode()==KeyEvent.VK_S) {
+				setYDirection(0);
+			}
+			break;
+		case 2:
+			if(e.getKeyCode()==KeyEvent.VK_UP) {
+				setYDirection(0);
+			}
+			if(e.getKeyCode()==KeyEvent.VK_DOWN) {
+				setYDirection(0);
+			}
+			break;
+		}
+	}
 
     public void setYDirection(int yDirection){
-
+        yVelocity=yDirection;
     }
 
     public void move(){
-
+		y= y + yVelocity;
+        height=height+yVelocity;
     }
 
     public void draw(){
@@ -75,7 +117,7 @@ public class Paddle{
         if (x >= 0 && x < buffer.getWidth() && y >= 0 && y < buffer.getHeight()) {
             buffer.setRGB(x, y, c.getRGB());
         }else{
-            System.out.println("out of bounds");
+
         }    
     }
     

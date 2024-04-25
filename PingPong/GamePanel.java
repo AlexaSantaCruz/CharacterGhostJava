@@ -116,6 +116,8 @@ Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the 
 			newBall();
 			System.out.println("Player 1: "+score.player1);
 		}
+
+		
 	}
 	public void run() {
 		//game loop

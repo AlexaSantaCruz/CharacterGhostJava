@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void draw(){
-                ball.draw();
+        ball.draw();
 
         paddle1.draw();
         paddle2.draw();
@@ -81,6 +81,34 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void checkCollision(){
+
+        
+        if(ball.x<=25){
+
+            if(ball.y>=(int)(paddle1.y-100)&&ball.y<=paddle1.y){/*ball in y width */
+                ball.xVelocity = Math.abs(ball.xVelocity);
+                ball.xVelocity++; //optional for more difficulty
+                if(ball.yVelocity>0)
+                    ball.yVelocity++; //optional for more difficulty
+                else
+                    ball.yVelocity--;
+                ball.setXDirection(ball.xVelocity);
+                ball.setYDirection(ball.yVelocity);
+            }
+        }
+        if(ball.x>=GAME_WIDTH-25){
+
+            if(ball.y>=(int)(paddle2.y-100)&&ball.y<=paddle2.y){/*ball in y width */
+                ball.xVelocity = Math.abs(ball.xVelocity);
+			ball.xVelocity++; //optional for more difficulty
+			if(ball.yVelocity>0)
+				ball.yVelocity++; //optional for more difficulty
+			else
+				ball.yVelocity--;
+			ball.setXDirection(-ball.xVelocity);
+			ball.setYDirection(ball.yVelocity);
+            }
+        }
 		//bounce ball off top & bottom window edges
 		if(ball.y <=0) {
 			ball.setYDirection(-ball.yVelocity);
@@ -100,6 +128,23 @@ public class GamePanel extends JPanel implements Runnable{
 			newBall();
 			System.out.println("Player 1: "+score.player1);
 		}
+        if(paddle1.y<=0){
+            paddle1.y=0;
+            paddle1.height=PADDLE_HEIGHT+25;
+        }
+        if(paddle1.y>=GAME_HEIGHT){
+            paddle1.y=GAME_HEIGHT;
+            paddle1.height=GAME_HEIGHT-PADDLE_HEIGHT-25;
+        }
+        if(paddle2.y<=0){
+            paddle2.y=0;
+            paddle2.height=PADDLE_HEIGHT+25;
+        }
+        if(paddle2.y>=GAME_HEIGHT){
+            paddle2.y=GAME_HEIGHT;
+            paddle2.height=GAME_HEIGHT-PADDLE_HEIGHT-25;
+        }
+
     }
 
     public void run(){
@@ -123,12 +168,20 @@ public class GamePanel extends JPanel implements Runnable{
   
     }
 
-    public class AL extends KeyAdapter{
-        public void KeyPressed(KeyEvent e){
-
+    public class AL implements KeyListener{
+        @Override
+        public void keyTyped(KeyEvent e) {
+            // TODO Auto-generated method stub
         }
-        public void KeyReleased(KeyEvent e){
-            
+        @Override
+        public void keyPressed(KeyEvent e) {
+            paddle1.keyPressed(e);
+            paddle2.keyPressed(e);
+        }
+        @Override
+        public void keyReleased(KeyEvent e) {
+            paddle1.keyReleased(e);
+            paddle2.keyReleased(e);
         }
     }
 }
