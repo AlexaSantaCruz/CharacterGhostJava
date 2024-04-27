@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import static java.awt.GraphicsDevice.WindowTranslucency.*;
-import java.awt.*;
 import java.awt.Color; 
 
 
@@ -22,34 +21,7 @@ public class FrameTransparente extends JFrame {
 
         persona = new Personaje();
         add(persona);
-        //setContentPane(persona);
 
-/*
- *         GraphicsDevice gd =GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        // Configurar la ventana
-        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = pantalla.height;
-        int width = pantalla.width;
-        setSize(width/2, height/2);		
-  
-        setLocationRelativeTo(null);
-        setTitle("Mi Ventana");
-        setSize(400, 300);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminar la ejecución cuando se cierra la ventana
-        setUndecorated(true);
-        if(gd.isFullScreenSupported()){
-            System.out.println("supported");
-            setOpacity(0.2f);
-        }
-
-
-        persona = new Personaje();
-        add(persona);
-
-        // Dibujar una línea en el JPanel
-        setVisible(true);
- * 
-*/
     }
 
     public static void main(String[] args) {
