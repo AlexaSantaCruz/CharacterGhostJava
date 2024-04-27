@@ -47,7 +47,7 @@ public class Personaje extends JComponent implements Runnable {
                                     public void actionPerformed(ActionEvent event) {
                                         // Acción a realizar cuando se selecciona "Opción 1"
                                         System.out.println("Opción 1 seleccionada");
-                                        PongGame frameJuego = new PongGame();
+                                        GameFrame frameJuego = new GameFrame();
                                         frameJuego.setLocationRelativeTo(null);
                                         frameJuego.setVisible(true);
                                     }
