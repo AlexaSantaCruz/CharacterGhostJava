@@ -23,11 +23,21 @@ public class Personaje extends JComponent implements Runnable {
     boolean activateEyes=false;
     boolean showDialog=false;
     boolean welcome=true;
+    boolean game=false;
+    boolean vaciarPapelera=false;
+    boolean hablar=false;
+    boolean pruebaTexto=false;
+    Figures fig;
+    AlphabetBitmap alphabet;
+    GameFrame frameJuego;
+
     
 
     public Personaje() {
-        setPreferredSize(new Dimension(800, 800));
         buffer = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
+        fig=new Figures(buffer);
+        alphabet=new AlphabetBitmap(fig);
+        setPreferredSize(new Dimension(800, 800));
         visibleBuffer = new BufferedImage(800, 800, BufferedImage.TYPE_INT_ARGB);
         graPixel = buffer.createGraphics();
 
@@ -42,34 +52,55 @@ public class Personaje extends JComponent implements Runnable {
                     JPopupMenu popupMenu = new JPopupMenu();
                     JMenuItem menuItem1 = new JMenuItem("Jugar");
                     JMenuItem menuItem2 = new JMenuItem("Vaciar papelera");
+                    JMenuItem menuItem3 = new JMenuItem("Prueba de texto");
+                    JMenuItem menuItem4 = new JMenuItem("Hablar");
 
                                 // Crear ActionListener para los elementos de menú
                                 ActionListener menuItem1Listener = new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent event) {
-                                        // Acción a realizar cuando se selecciona "Opción 1"
+                                        System.out.println("Opcion 1 seleccionada");
 
-                                        GameFrame frameJuego = new GameFrame();
-                                        frameJuego.setLocationRelativeTo(null);
-                                        frameJuego.setVisible(true);
+                                        game=true;
+                                        dialog();
+
                                     }
                                 };
                                 ActionListener menuItem2Listener = new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent event) {
-                                        // Acción a realizar cuando se selecciona "Opción 2"
-                                        System.out.println("Opción 2 seleccionada");
-                                        // Aquí puedes realizar cualquier acción que desees
+                                        vaciarPapelera=true;
+                                        dialog();
+                                    }
+                                };
+                                ActionListener menuItem3Listener = new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent event) {
+                                        pruebaTexto=true;
+                                        dialog();
+                                    }
+                                }; 
+                                ActionListener menuItem4Listener = new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent event) {
+                                        hablar=true;
+                                        dialog();
                                     }
                                 };
             
                                                     // Asignar ActionListener a los elementos de menú
                     menuItem1.addActionListener(menuItem1Listener);
                     menuItem2.addActionListener(menuItem2Listener);
+                    menuItem3.addActionListener(menuItem3Listener);
+                    menuItem4.addActionListener(menuItem4Listener);
+
 
                     // Agregar los elementos de menú al menú emergente
                     popupMenu.add(menuItem1);
                     popupMenu.add(menuItem2);
+                    popupMenu.add(menuItem3);
+                    popupMenu.add(menuItem4);
+
 
                     // Mostrar el menú emergente en la posición del clic
                     popupMenu.show(e.getComponent(), e.getX(), e.getY());
@@ -114,19 +145,51 @@ public class Personaje extends JComponent implements Runnable {
         int yPointsDialog[]={500,500,700,700};
         if(welcome){
             /*Say hi to the user, put a text saying hello and then dissapears when the uses clicks on character */
-            System.out.println("hello");
 
             ScanLine(xPointsDialog, yPointsDialog, Color.white);
+            alphabet.drawWord(150 ,550 ,"hola bienvenido, haz click derecho", Color.black);
+            alphabet.drawWord(150, 600, "sobre mi para ver mis funciones", Color.black);
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     welcome=false;
                 }
             });
+        }
 
+        if(game){
+            frameJuego=null;
+            ScanLine(xPointsDialog, yPointsDialog, Color.white);
+            alphabet.drawWord(150 ,550 ,"claro, deja abro el juego por ti", Color.black);
+            alphabet.drawWord(150, 600, "debes tener un jugador 2", Color.black);
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    game=false;
+                    if(frameJuego==null){
+                    frameJuego = new GameFrame();
+                    frameJuego.setLocationRelativeTo(null);
+                    frameJuego.setVisible(true);
+                    }
+                }
+            });  
+        }
+
+        if(vaciarPapelera){
+            ScanLine(xPointsDialog, yPointsDialog, Color.white);
+            alphabet.drawWord(150 ,550 ,"claro, te ayudo con eso", Color.black);
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    //pera deja subo esto a github, no vaya a ser el diablo
+                    //que uso mal el cmd xD
+                    vaciarPapelera=false;
+
+                }
+            });  
 
         }
-        //if(gameEnter)
+
     }
 
     void drawAnimationAntenna(){
@@ -173,6 +236,7 @@ public class Personaje extends JComponent implements Runnable {
     }
     }
     void draw() {
+        
         graPixel.setComposite(AlphaComposite.Clear);
         graPixel.fillRect(0, 0, (buffer.getWidth()), (buffer.getHeight()));
         graPixel.setComposite(AlphaComposite.SrcOver);
@@ -228,6 +292,9 @@ public class Personaje extends JComponent implements Runnable {
         buffer = visibleBuffer;
         visibleBuffer = temp;
         graPixel = buffer.createGraphics();
+        fig.buffer=buffer;
+        fig.lines.bufferedImage=buffer;
+
     }
 
 
