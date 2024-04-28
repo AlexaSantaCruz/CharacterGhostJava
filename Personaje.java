@@ -10,6 +10,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+
 import PingPong2.*;
 
 import java.net.URISyntaxException;
@@ -31,6 +33,8 @@ public class Personaje extends JComponent implements Runnable {
     boolean abrirNavegador = false;
     boolean hablar = false;
     boolean pruebaTexto = false;
+    boolean respuesta=false;
+    int index=0;
     Figures fig;
     AlphabetBitmap alphabet;
     GameFrame frameJuego;
@@ -108,6 +112,65 @@ public class Personaje extends JComponent implements Runnable {
                 }
             }
         });
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(welcome==true){
+                    welcome = false;
+                }
+
+                if(game==true){
+                    System.out.println("prueba");
+                    game = false;
+                    if (frameJuego == null) {
+                        frameJuego = new GameFrame();
+                        frameJuego.setLocationRelativeTo(null);
+                        frameJuego.setVisible(true);
+                    }
+                }
+                if(abrirNavegador==true){
+                    abrirNavegador = false;
+                    boolean abrir1Vez=true;
+
+                    if(abrir1Vez){
+                        System.out.println(abrir1Vez);
+                    // Ruta de instalación de Google Chrome en Windows por defecto
+                    // URL que deseas abrir en Chrome
+                    String url = "https://www.google.com";
+
+                    try {
+                        // Verificar si Desktop es soportado y si Chrome está instalado en la ruta
+                        // predeterminada
+                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                            // Configurar la URI
+                            URI uri = new URI(url);
+
+                            if (Desktop.isDesktopSupported()
+                                    && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                                // Abrir la URL en Google Chrome
+                                Desktop.getDesktop().browse(uri);
+                                System.out.println("Google Chrome se ha abierto correctamente en " + url);
+                            }
+                        } else {
+                            System.out.println("Desktop no está soportado o no se puede abrir Google Chrome.");
+                        }
+                    } catch (IOException | URISyntaxException p) {
+                        System.err.println("Error al intentar abrir Google Chrome: " + p.getMessage());
+                    }
+
+                    abrir1Vez=false;
+                }
+                abrir1Vez=false;
+            }
+            if(pruebaTexto==true){
+                pruebaTexto=false;
+            }
+            if(hablar==true){
+                hablar=false;
+                respuesta=false;
+            }
+            }
+        });
 
     }
 
@@ -152,12 +215,7 @@ public class Personaje extends JComponent implements Runnable {
             ScanLine(xPointsDialog, yPointsDialog, Color.white);
             alphabet.drawWord(150, 550, "hola bienvenido, haz click derecho", Color.black);
             alphabet.drawWord(150, 600, "sobre mi para ver mis funciones", Color.black);
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    welcome = false;
-                }
-            });
+           
         }
 
         if (game) {
@@ -165,60 +223,49 @@ public class Personaje extends JComponent implements Runnable {
             ScanLine(xPointsDialog, yPointsDialog, Color.white);
             alphabet.drawWord(150, 550, "claro, deja abro el juego por ti", Color.black);
             alphabet.drawWord(150, 600, "debes tener un jugador 2", Color.black);
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    System.out.println("prueba");
-                    game = false;
-                    if (frameJuego == null) {
-                        frameJuego = new GameFrame();
-                        frameJuego.setLocationRelativeTo(null);
-                        frameJuego.setVisible(true);
-                    }
-                }            
-            });
+                
         }
 
         if (abrirNavegador) {
             ScanLine(xPointsDialog, yPointsDialog, Color.white);
             alphabet.drawWord(150, 550, "claro, te ayudo con eso", Color.black);
-            addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    abrirNavegador = false;
-                    boolean abrir1Vez=true;
 
-                    if(abrir1Vez){
-                        System.out.println(abrir1Vez);
-                    // Ruta de instalación de Google Chrome en Windows por defecto
-                    // URL que deseas abrir en Chrome
-                    String url = "https://www.google.com";
+        }
+        if(pruebaTexto){
+            ScanLine(xPointsDialog, yPointsDialog, Color.white);
+            alphabet.drawWord(150, 550, "abcdefghijklmnopqrstuvwxyz", Color.black);
+            alphabet.drawWord(150, 600, ", - 1 2 3 4 5 6 7 8 9 0", Color.black);
 
-                    try {
-                        // Verificar si Desktop es soportado y si Chrome está instalado en la ruta
-                        // predeterminada
-                        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                            // Configurar la URI
-                            URI uri = new URI(url);
+        }
+        if(hablar){
+            String[] hablarT={"el primer correo electronico",
+            "en cuba y corea del norte",
+            "google significa 1 en un millon",
+            "mcDonalds vendia hotdogs"};
+            String[] hablarT2={"fue qwertyuiop",
+                            "no puedes tomar coca-cola",
+                            ""};
 
-                            if (Desktop.isDesktopSupported()
-                                    && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
-                                // Abrir la URL en Google Chrome
-                                Desktop.getDesktop().browse(uri);
-                                System.out.println("Google Chrome se ha abierto correctamente en " + url);
-                            }
-                        } else {
-                            System.out.println("Desktop no está soportado o no se puede abrir Google Chrome.");
-                        }
-                    } catch (IOException | URISyntaxException p) {
-                        System.err.println("Error al intentar abrir Google Chrome: " + p.getMessage());
-                    }
+            if(respuesta==false){
 
-                    abrir1Vez=false;
+            index++;
+            respuesta=true;
+                if(index==3){
+                    index=0;
                 }
-                abrir1Vez=false;
             }
-            });
+            
+           
+
+            // Obtenemos el string aleatorio
+            String fraseAleatoria = hablarT[index];
+            String fraseAleatoria2=hablarT2[index];
+
+            ScanLine(xPointsDialog, yPointsDialog, Color.white);
+            alphabet.drawWord(150, 550, fraseAleatoria, Color.black);
+            alphabet.drawWord(150, 600, fraseAleatoria2, Color.black);
+
+
 
         }
 
