@@ -35,11 +35,10 @@ public class FrameTransparente extends JFrame {
             System.out.println("Per-pixel translucency is not supported");
             System.exit(0);
         }
-
+        
 
 
         JFrame.setDefaultLookAndFeelDecorated(true);
-
         // Create the GUI on the event-dispatching thread
         SwingUtilities.invokeLater(new Runnable() {
             @Override

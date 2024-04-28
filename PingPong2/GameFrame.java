@@ -14,11 +14,23 @@ public class GameFrame extends JFrame{
        this.setTitle("Pong IGS");
        this.setResizable(false);
        this.setBackground(Color.BLACK);
-       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+       this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
+       this.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            // Destruir el objeto GameFrame
+            panel.isPlaying=false;
+            dispose();
+            
+        }
+    });
+
+
        this.pack();
        this.setVisible(true);
        this.setLocationRelativeTo(null);
+
     }
     
 }

@@ -24,9 +24,11 @@ public class GamePanel extends JPanel implements Runnable{
     Score score;
     public BufferedImage buffer;
     Graphics gBuffer;
+    public boolean isPlaying;
 
 
     GamePanel(){
+        isPlaying=true;
 
         if(buffer==null){
             buffer = new BufferedImage(GAME_WIDTH, GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -153,7 +155,7 @@ public class GamePanel extends JPanel implements Runnable{
 		double amountOfTicks =60.0;
 		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
-		while(true) {
+		while(isPlaying==true) {
 			long now = System.nanoTime();
 			delta += (now -lastTime)/ns;
 			lastTime = now;
@@ -164,6 +166,7 @@ public class GamePanel extends JPanel implements Runnable{
 				delta--;
 			}
 		}
+        System.out.println("out");
 
   
     }

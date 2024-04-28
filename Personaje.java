@@ -21,6 +21,8 @@ public class Personaje extends JComponent implements Runnable {
     int eyes2=25;
     int count=0;
     boolean activateEyes=false;
+    boolean showDialog=false;
+    boolean welcome=true;
     
 
     public Personaje() {
@@ -46,7 +48,7 @@ public class Personaje extends JComponent implements Runnable {
                                     @Override
                                     public void actionPerformed(ActionEvent event) {
                                         // Acción a realizar cuando se selecciona "Opción 1"
-                                        System.out.println("Opción 1 seleccionada");
+
                                         GameFrame frameJuego = new GameFrame();
                                         frameJuego.setLocationRelativeTo(null);
                                         frameJuego.setVisible(true);
@@ -77,6 +79,7 @@ public class Personaje extends JComponent implements Runnable {
     
     }
 
+
     @Override
     public void run() {
         while (true) {
@@ -102,6 +105,28 @@ public class Personaje extends JComponent implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.drawImage(visibleBuffer, 0, 0, this);
+    }
+
+    void dialog(){
+        /*here are predeterminated text for this robot */
+        /*and predetermined points of the dialog*/
+        int xPointsDialog[]={100,700,700,100};
+        int yPointsDialog[]={500,500,700,700};
+        if(welcome){
+            /*Say hi to the user, put a text saying hello and then dissapears when the uses clicks on character */
+            System.out.println("hello");
+
+            ScanLine(xPointsDialog, yPointsDialog, Color.white);
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    welcome=false;
+                }
+            });
+
+
+        }
+        //if(gameEnter)
     }
 
     void drawAnimationAntenna(){
@@ -190,6 +215,8 @@ public class Personaje extends JComponent implements Runnable {
         drawLineWweight(365, 590, 425, 590, Color.white, 10);
         drawLineWweight(365, 585, 365, 700, Color.white, 10);
         drawCircleColor(400, 567, 5, Color.white);
+
+        dialog();
          // Copia el buffer de dibujo en el buffer visible
          Graphics2D g2d = visibleBuffer.createGraphics();
          g2d.drawImage(buffer, 0, 0, null);
